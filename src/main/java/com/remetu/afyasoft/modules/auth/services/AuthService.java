@@ -32,13 +32,9 @@ public class AuthService {
         }
     }
 
-    public void logout(String authorization) {
+    public void logout(String token ) {
         try {
-            if(authorization.length() < 7) return;
-            String token = authorization.substring(7);
-            if(!token.isBlank() && !jwtService.isExpired(token)) {
-                jwtService.revokeToken(token);
-            }
+            jwtService.revokeToken(token);
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
