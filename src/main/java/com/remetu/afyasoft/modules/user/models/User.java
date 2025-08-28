@@ -1,7 +1,10 @@
 package com.remetu.afyasoft.modules.user.models;
 
+import com.remetu.afyasoft.models.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -10,10 +13,9 @@ import java.util.stream.Collectors;
 
 @Data
 @Entity
-public class User implements UserDetails {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+@EnableJpaAuditing
+@EqualsAndHashCode(callSuper = true)
+public class User extends BaseEntity implements UserDetails {
     @Column(unique = true)
     private String username;
     private String password;
@@ -30,4 +32,5 @@ public class User implements UserDetails {
         if (roles == null) return new HashSet<>();
         return roles.stream().flatMap(role -> role.getAuthorities().stream()).collect(Collectors.toSet());
     }
+
 }
