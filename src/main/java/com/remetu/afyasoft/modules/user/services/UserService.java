@@ -1,10 +1,12 @@
 package com.remetu.afyasoft.modules.user.services;
 
+import com.remetu.afyasoft.modules.user.http.request.UserDataPageRequestParam;
 import com.remetu.afyasoft.modules.user.models.User;
 import com.remetu.afyasoft.modules.user.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,8 +27,8 @@ public class UserService implements UserDetailsService {
         return userRepository.save(user);
     }
 
-    public Page<User> getPage(Pageable pageable) {
-        return userRepository.findAll(pageable);
+    public Page<User> getPage(UserDataPageRequestParam param) {
+        return userRepository.findAll(param.getSpecification(), param.getPageable());
     }
 
     public void delete(UUID id) {

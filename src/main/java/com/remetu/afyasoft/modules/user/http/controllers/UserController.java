@@ -2,13 +2,17 @@ package com.remetu.afyasoft.modules.user.http.controllers;
 
 import com.remetu.afyasoft.classes.DataPageRequestParam;
 import com.remetu.afyasoft.modules.user.http.data.ChangePasswordRequest;
+import com.remetu.afyasoft.modules.user.http.request.UserDataPageRequestParam;
 import com.remetu.afyasoft.modules.user.models.User;
 import com.remetu.afyasoft.modules.user.services.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -16,6 +20,8 @@ import java.util.UUID;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private HttpServletRequest request;
 
     @PostMapping("/save")
     public ResponseEntity<User> save(@RequestBody User user) {
@@ -23,8 +29,8 @@ public class UserController {
     }
 
     @GetMapping("/page")
-    public ResponseEntity<Page<User>> getPage(@ModelAttribute DataPageRequestParam param) {
-        return ResponseEntity.ok(userService.getPage(param.getPageable()));
+    public ResponseEntity<?> getPage(@RequestParam HashMap<String, String> param) {
+           return ResponseEntity.ok(userService.getPage(new UserDataPageRequestParam(param)));
     }
 
     @DeleteMapping("/delete")

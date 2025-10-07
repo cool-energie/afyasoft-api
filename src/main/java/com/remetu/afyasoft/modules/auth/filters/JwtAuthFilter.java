@@ -1,4 +1,4 @@
-package com.remetu.afyasoft.modules.auth.http.filters;
+package com.remetu.afyasoft.modules.auth.filters;
 
 import com.remetu.afyasoft.modules.auth.services.JwtService;
 import com.remetu.afyasoft.services.HttpService;
@@ -7,10 +7,12 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+@Component
 public class JwtAuthFilter extends OncePerRequestFilter {
     @Autowired
     private HttpService httpService;
